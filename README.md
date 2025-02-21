@@ -210,6 +210,8 @@ H∣1⟩=
 
 
 ### Kode Python :
+
+- Linear accuracy
 ```python
 # ini adlaah module dari IBM utnuk mesimulasikan konsep Quantum Computing
 from qiskit import QuantumCircuit, Aer, execute
@@ -230,4 +232,28 @@ result = job.result()
 counts = result.get_counts()
 
 print(counts)  # hasilnya harus mendekati {'0': 500, '1': 500}
+```
+
+
+- Visualisasi
+```python
+from qiskit import QuantumCircuit
+
+qc = QuantumCircuit(2)  # memuat quantum circuit dengan 2 qubit
+qc.h(0)  # memberi gerbang Hadamard ke qubit pertama (superposisi)
+qc.cx(0, 1)  # entanglement antara qubit 0 dan 1
+qc.measure_all()  # mengukur semua qubit
+
+print(qc)
+```
+
+maka ouputnya akan seperti ini 
+```bash
+        ┌───┐      ░ ┌─┐   
+   q_0: ┤ H ├──■───░─┤M├───
+        └───┘┌─┴─┐ ░ └╥┘┌─┐
+   q_1: ─────┤ X ├─░──╫─┤M├
+             └───┘ ░  ║ └╥┘
+meas: 2/══════════════╩══╩═
+                      0  1
 ```
