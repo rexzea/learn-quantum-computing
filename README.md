@@ -1,4 +1,4 @@
-## 1. Rumus Qubit & Superposisi
+# 1. Rumus Qubit & Superposisi
 Qubit bisa dituliskan dalam bentuk:
 
 ∣
