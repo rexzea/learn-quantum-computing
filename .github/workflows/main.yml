@@ -3,7 +3,7 @@ name: Auto Commit Bot
 
 on:
   schedule:
-    - cron: "0 */5 * * *"  
+    - cron: "0 */1 * * *"  
   workflow_dispatch:  
 
 jobs:
