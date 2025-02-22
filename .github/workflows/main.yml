@@ -37,4 +37,4 @@ jobs:
         env:
           PAT_TOKEN: ${{ secrets.PAT_TOKEN }}
         run: |
-          git push --force https://x-access-token:${{ secrets.PAT_TOKEN }}@github.com/rexzea/Simple-Hand-Tracking.git main
+          git push --force https://x-access-token:${{ secrets.PAT_TOKEN }}@https://github.com/rexzea/learn-quantum-computing.git main
