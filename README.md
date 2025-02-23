@@ -257,3 +257,235 @@ maka ouputnya akan seperti ini
 meas: 2/══════════════╩══╩═
                       0  1
 ```
+
+
+
+
+# Materi 2: Entanglement (Keterkaitan Kuantum)
+1️⃣ Apa Itu Entanglement? Entanglement (keterkaitan kuantum) adalah fenomena di mana dua qubit menjadi saling terhubung, sehingga mengubah satu qubit akan langsung mempengaruhi qubit lainnya, meskipun mereka berjauhan.
+
+💡 Contoh Analoginya:
+Bayangkan kamu dan temanmu masing2 punya sebuah kotak ajaib.
+
+Kalau kamu buka kotakmu dan isinya bola merah, maka temanmu pasti juga menemukan bola merah di kotaknya, meskipun dia ada di tempat yang sangat jauh. Kalau kamu buka dan isinya bola biru, maka temanmu juga akan menemukan bola biru. Ini terjadi tanpa ada koneksi langsung antara kedua kotak! Itulah entanglement. Begitu satu qubit diukur, qubit lainnya langsung "tertentu" hasilnya, meskipun sebelumnya masih dalam superposisi.
+
+2️⃣ Cara Membuat Entanglement dengan Qiskit Kita bisa membuat dua qubit ter entangle dengan menggunakan dua gerbang kuantum utama:
+
+Hadamard (H-Gate) → Membuat superposisi. CNOT (CX-Gate) → Menghubungkan dua qubit agar ter-entangle.
+
+```python
+from qiskit import QuantumCircuit
+from qiskit_aer import AerSimulator  
+from qiskit import transpile
+
+# membuat quantum circuit dengan 2 qubit
+qc = QuantumCircuit(2)
+
+# gerbang Hadamard ke qubit pertama (superposisi)
+qc.h(0)
+
+# menerapkan gerbang CNOT (menghubungkan qubit 0 dan qubit 1)
+qc.cx(0, 1)
+
+# menambahkan pengukuran
+qc.measure_all()
+
+# sirkuitnya
+print(qc)
+
+# simulator nya
+simulator = AerSimulator()
+compiled_circuit = transpile(qc, simulator)  
+result = simulator.run(compiled_circuit, shots=1000).result()
+
+print(result.get_counts())
+```
+result :
+```
+        ┌───┐      ░ ┌─┐   
+   q_0: ┤ H ├──■───░─┤M├───
+        └───┘┌─┴─┐ ░ └╥┘┌─┐
+   q_1: ─────┤ X ├─░──╫─┤M├
+             └───┘ ░  ║ └╥┘
+meas: 2/══════════════╩══╩═
+                      0  1 
+{'11': 497, '00': 503}
+```
+
+
+
+# Materi 3: Interferensi Kuantum
+1. Apa Itu Interferensi Kuantum? Dalam mekanika kuantum, interferensi terjadi ketika gelombang kuantum saling memperkuat atau saling membatalkan.
+
+➡ Interferensi Konstruktif → Menguatkan probabilitas hasil tertentu. ➡ Interferensi Destruktif → Menghilangkan probabilitas hasil tertentu.
+
+💡 Analogi:
+
+Bayangkan dua orang melempar batu ke kolam air.
+Jika gelombang air bertemu dalam fase yang sama, gelombang akan semakin besar (interferensi konstruktif). Jika gelombang bertemu dalam fase berlawanan, mereka akan saling membatalkan (interferensi destruktif). Dalam komputasi kuantum, interferensi digunakan untuk meningkatkan kemungkinan jawaban yang benar dan mengurangi kemungkinan jawaban yang salah.
+
+2️. Gerbang Kuantum yang Menggunakan Interferensi Beberapa gerbang kuantum memanfaatkan interferensi kuantum, di antaranya:
+
+Hadamard (H-Gate) → Membuat superposisi dan menciptakan pola interferensi. Gerbang Fase (S, T, dan Z-Gate) → Mengubah fase qubit untuk mengontrol interferensi. Gerbang Hadamard Ganda (H-Gate Dua Kali) → Membatalkan superposisi dan mengembalikan qubit ke keadaan awal.
+
+```python
+from qiskit import QuantumCircuit
+from qiskit_aer import AerSimulator  
+from qiskit import transpile
+
+# membuat quantum circuit dengan 1 qubit
+qc = QuantumCircuit(1)
+
+# gerbang Hadamard dua kali
+qc.h(0)  # hadamard pertama
+qc.h(0)  # hadamard kedua
+
+# pengukuran
+qc.measure_all()
+
+# ini sirkuitnya
+print(qc)
+
+# simulator untuk menjalankan sirkuit
+simulator = AerSimulator()
+compiled_circuit = transpile(qc, simulator)  
+result = simulator.run(compiled_circuit, shots=1000).result()
+print(result.get_counts())
+```
+result :
+```
+        ┌───┐┌───┐ ░ ┌─┐
+     q: ┤ H ├┤ H ├─░─┤M├
+        └───┘└───┘ ░ └╥┘
+meas: 1/══════════════╩═
+                      0 
+{'0': 1000}
+```
+Bagaimana jika hadamard berkali kali?
+```python
+from qiskit import QuantumCircuit
+from qiskit_aer import AerSimulator
+from qiskit import transpile
+
+qc = QuantumCircuit(1)
+
+# menerapkan Hadamard sebanyak 6 kali
+for _ in range(1):
+    qc.h(0)
+
+# Tambahkan pengukuran
+qc.measure_all()
+
+# mencetak sirkuitnya
+print(qc)
+
+# menggunakan simulator untuk menjalankan sirkuit
+simulator = AerSimulator()
+compiled_circuit = transpile(qc, simulator)
+result = simulator.run(compiled_circuit, shots=1000).result()
+
+print(result.get_counts())
+```
+result :
+```
+        ┌───┐ ░ ┌─┐
+     q: ┤ H ├─░─┤M├
+        └───┘ ░ └╥┘
+meas: 1/═════════╩═
+                 0 
+{'1': 493, '0': 507}
+```
+🔹 Hadamard 1x → Membuat superposisi.
+🔹 Hadamard 2x → Mengembalikan qubit ke keadaan awal (|0⟩).
+🔹 Hadamard 3x → Sama seperti 1x (superposisi).
+🔹 Hadamard 4x → Sama seperti 2x (kembali ke |0⟩).
+🔹 Hadamard 6x → Sama seperti 2x dan 4x, hasilnya tetap |0⟩.
+
+ jadi, kalau Hadamard diterapkan genap kali (2, 4, 6, 8, ...), qubit kembali ke keadaan awal. alias Hadamard seperti saklar.
+
+
+# Materi 4: Algoritma Kuantum (Deutsch & Grover)
+Komputer kuantum bisa menyelesaikan masalah tertentu lebih cepat dari komputer klasik. Di sini, kita akan belajar dua algoritma kuantum penting:
+
+Algoritma Deutsch → Menentukan tipe fungsi dalam 1 langkah saja.
+Algoritma Grover → Mencari data lebih cepat dengan √N pencarian (daripada N pencarian di komputer klasik). 
+Algoritma Deutsch
+- Masalah yang Diselesaikan Kita punya fungsi f(x) yang menerima 0 atau 1, lalu mengembalikan 0 atau 1.
+- Fungsi bisa bersifat konstan (hasil selalu sama) atau seimbang (hasil bisa berbeda).
+- Fungsi f(x) f(0) f(1) Tipe f₁(x) 0 0 Konstan f₂(x) 1 1 Konstan f₃(x) 0 1 Seimbang f₄(x) 1 0 Seimbang Komputer klasik perlu cek dua kali (f(0) dan f(1)). Komputer kuantum hanya butuh 1 langkah dengan superposisi & interferensi kuantum saja
+
+```python
+from qiskit import QuantumCircuit, transpile
+from qiskit_aer import Aer 
+
+# membuat quantum circuit dengan 2 qubit (1 input, 1 output)
+qc = QuantumCircuit(2)
+
+# menerapkan Hadamard ke kedua qubit
+qc.h(0)
+qc.h(1)
+
+# menerapkan gerbang CNOT untuk membuat fungsi seimbang
+qc.cx(0, 1)  # fungsi ini membuat f(x) seimbang
+
+# menerapkan Hadamard lagi ke qubit pertama
+qc.h(0)
+
+# menambahkan pengukuran
+qc.measure_all()
+
+# ini sirkuitnya
+print(qc)
+
+# menggunakan simulator Aer
+simulator = Aer.get_backend('aer_simulator')
+compiled_circuit = transpile(qc, simulator)
+
+# simulasi dengan execute
+result = simulator.run(compiled_circuit, shots=1000).result()
+
+print(result.get_counts())
+```
+result
+```
+Selection deleted
+from qiskit import QuantumCircuit, transpile
+from qiskit_aer import Aer 
+
+# membuat quantum circuit dengan 2 qubit (1 input, 1 output)
+qc = QuantumCircuit(2)
+
+# menerapkan Hadamard ke kedua qubit
+qc.h(0)
+qc.h(1)
+
+# menerapkan gerbang CNOT untuk membuat fungsi seimbang
+qc.cx(0, 1)  # fungsi ini membuat f(x) seimbang
+
+# menerapkan Hadamard lagi ke qubit pertama
+qc.h(0)
+
+# menambahkan pengukuran
+qc.measure_all()
+
+# ini sirkuitnya
+print(qc)
+
+# menggunakan simulator Aer
+simulator = Aer.get_backend('aer_simulator')
+compiled_circuit = transpile(qc, simulator)
+
+# simulasi dengan execute
+result = simulator.run(compiled_circuit, shots=1000).result()
+
+print(result.get_counts())
+
+        ┌───┐     ┌───┐ ░ ┌─┐   
+   q_0: ┤ H ├──■──┤ H ├─░─┤M├───
+        ├───┤┌─┴─┐└───┘ ░ └╥┘┌─┐
+   q_1: ┤ H ├┤ X ├──────░──╫─┤M├
+        └───┘└───┘      ░  ║ └╥┘
+meas: 2/═══════════════════╩══╩═
+                           0  1 
+{'00': 529, '10': 471}
+```
