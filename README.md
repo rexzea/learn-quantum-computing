@@ -396,9 +396,13 @@ meas: 1/═════════╩═
 {'1': 493, '0': 507}
 ```
 🔹 Hadamard 1x → Membuat superposisi.
+
 🔹 Hadamard 2x → Mengembalikan qubit ke keadaan awal (|0⟩).
+
 🔹 Hadamard 3x → Sama seperti 1x (superposisi).
+
 🔹 Hadamard 4x → Sama seperti 2x (kembali ke |0⟩).
+
 🔹 Hadamard 6x → Sama seperti 2x dan 4x, hasilnya tetap |0⟩.
 
  jadi, kalau Hadamard diterapkan genap kali (2, 4, 6, 8, ...), qubit kembali ke keadaan awal. alias Hadamard seperti saklar.
@@ -448,37 +452,6 @@ print(result.get_counts())
 ```
 result
 ```
-Selection deleted
-from qiskit import QuantumCircuit, transpile
-from qiskit_aer import Aer 
-
-# membuat quantum circuit dengan 2 qubit (1 input, 1 output)
-qc = QuantumCircuit(2)
-
-# menerapkan Hadamard ke kedua qubit
-qc.h(0)
-qc.h(1)
-
-# menerapkan gerbang CNOT untuk membuat fungsi seimbang
-qc.cx(0, 1)  # fungsi ini membuat f(x) seimbang
-
-# menerapkan Hadamard lagi ke qubit pertama
-qc.h(0)
-
-# menambahkan pengukuran
-qc.measure_all()
-
-# ini sirkuitnya
-print(qc)
-
-# menggunakan simulator Aer
-simulator = Aer.get_backend('aer_simulator')
-compiled_circuit = transpile(qc, simulator)
-
-# simulasi dengan execute
-result = simulator.run(compiled_circuit, shots=1000).result()
-
-print(result.get_counts())
 
         ┌───┐     ┌───┐ ░ ┌─┐   
    q_0: ┤ H ├──■──┤ H ├─░─┤M├───
