@@ -462,3 +462,87 @@ meas: 2/═══════════════════╩══╩═
                            0  1 
 {'00': 529, '10': 471}
 ```
+
+- H|0⟩ = (|0⟩ + |1⟩)/√2
+- H|1⟩ = (|0⟩ - |1⟩)/√2
+
+Dalam bentuk matriks, gerbang Hadamard direpresentasikan seperti ini:
+
+```
+H = 1/√2 [ 1  1 ]
+         [ 1 -1 ]
+```
+
+### Gerbang CNOT (Controlled-NOT)
+
+Gerbang CNOT adalah gerbang kuantum dua qubit yang melakukan operasi NOT pada qubit target kalau qubit kontrol berada dalam keadaan |1⟩. Secara matematis:
+
+- CNOT|00⟩ = |00⟩
+- CNOT|01⟩ = |01⟩
+- CNOT|10⟩ = |11⟩
+- CNOT|11⟩ = |10⟩
+
+Matriks yang merepresentasikan gerbang CNOT adalah:
+
+```
+CNOT = [ 1 0 0 0 ]
+       [ 0 1 0 0 ]
+       [ 0 0 0 1 ]
+       [ 0 0 1 0 ]
+```
+
+Gerbang CNOT itu sangat penting karena:
+1. Menciptakan entanglement (keterkaitan) antar qubit
+2. Bersama dengan gerbang satu qubit (seperti Hadamard), dapat membentuk set gerbang universal untuk komputasi kuantum
+
+## Algoritma Deutsch
+
+Algoritma Deutsch adalah salah satu algoritma kuantum yang paling sederhana yang mendemonstrasikan keunggulan kuantum dibandingkan komputasi klasik. Algoritma ini mampu menentukan apakah suatu fungsi boolean *f*: {0,1} → {0,1} bersifat konstan atau seimbang dengan hanya dgn satu evaluasi fungsi.
+
+### Tahapan Algoritma Deutsch
+
+1. Inisialisasi dua qubit dalam keadaan |0⟩|1⟩
+2. Terapkan gerbang Hadamard pada kedua qubit, menghasilkan keadaan (|0⟩ + |1⟩)/√2 ⊗ (|0⟩ - |1⟩)/√2
+3. Terapkan oracle U<sub>f</sub> yang mengkodifikasi fungsi f: U<sub>f</sub>|x⟩|y⟩ = |x⟩|y ⊕ f(x)⟩
+4. Terapkan gerbang Hadamard pada qubit pertama
+5. Ukur qubit pertama. Jika hasilnya |0⟩, maka fungsi f bersifat konstan; jika |1⟩, maka fungsi f bersifat seimbang
+
+### Rangkaian Kuantum Algoritma Deutsch
+
+```
+|0⟩ ─── H ─── U<sub>f</sub> ─── H ─── Measurement
+|1⟩ ─── H ───────────────────── (tidak diukur)
+```
+
+### Peranan CNOT dan Hadamard dalam Algoritma Deutsch
+
+- **Gerbang Hadamard**: Membuat superposisi yang memungkinkan evaluasi paralel pada semua input fungsi sekaligus
+- **CNOT**: Digunakan sebagai bagian dari implementasi oracle U<sub>f</sub>, terutama untuk fungsi f(x) = x atau f(x) = x ⊕ 1
+
+## Algoritma Grover
+
+Algoritma Grover adalah algoritma pencarian kuantum yg dapat menemukan elemen daoam database tidak terurut dengan kompleksitas O(√N), dibandingkan dengan algoritma komputer klasik yang memerlukan O(N) operasi.
+
+### Tahapan Algoritma Grover
+
+1. Inisialisasi n qubit dalam keadaan |0⟩ dan terapkan gerbang Hadamard untuk membuat superposisi merata dari semua kemungkinan keadaan:
+   |ψ⟩ = 1/√N ∑<sub>x=0</sub><sup>N-1</sup> |x⟩
+
+2. Ulangi langkah-langkah berikut sebanyak O(√N) kali:
+   - Terapkan operator oracle (O) yang membalik amplitudo keadaan target
+   - Terapkan operator difusi (D) yang membalik amplitudo semua keadaan terhadap rata-rata amplitudo
+
+3. Ukur register qubit untuk mendapatkan keadaan target dengan probabilitas tinggi
+
+### Rangkaian Kuantum Algoritma Grover
+
+```
+|0⟩⊗ⁿ ─── H⊗ⁿ ─── (O─D)^r ─── Measurement
+```
+
+di mana r ≈ π/4 · √N adalah jumlah iterasi optimal.
+
+### Peranan CNOT dan Hadamard dalam Algoritma Grover
+
+- **Gerbang Hadamard**: Digunakan untuk menciptakan superposisi awal yg merata dari semua basis komputasi, serta sebagai komponen dalam operator bagian difusi (D)
+- **CNOT**: ini diigunakan dalam implementasi oracle buat mendeteksi keadaan target dan dalam operator difusi untuk mengimplementasikan refleksinya
