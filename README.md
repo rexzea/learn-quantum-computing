@@ -257,6 +257,194 @@ meas: 2/══════════════╩══╩═
 {'11': 497, '00': 503}
 ```
 
+# Entanglement (Keterkaitan Kuantum)
+
+Entanglement atau keterkaitan kuantum adalah salah satu fenomena paling misterius dan fundamental dalam mekanika kuantum. Fenomena ini menjadi dasar bagi berbagai aplikasi kuantum modern termasuk komputasi kuantum, kriptografi kuantum, dan teleportasi kuantum.
+
+## Konsep Dasar Entanglement
+
+Entanglement terjadi ketika dua atau lebih partikel berinteraksi sedemikian rupa sehingga keadaan kuantum masing2 partikel tidak dapat dijelaskan secara independen. Sebagai gantinya, keadaan kuantum harus dijelaskan sebagai keadaan sistem secara keseluruhan, bahkan ketika partikel2 tersebut dipisahkan oleh jarak yang sangat jauh.
+
+### Definisi Matematis
+
+Secara matematis, keadaan terbelit (entangled state) adalah keadaan kuantum dari sistem multi-partikel yang tidak dapat ditulis sebagai produk tensor dari keadaan individual partikel:
+
+$$|\psi_{AB}\rangle \neq |\psi_A\rangle \otimes |\psi_B\rangle$$
+
+dengan $|\psi_{AB}\rangle$ adalah keadaan sistem secara keseluruhan, dan $|\psi_A\rangle$ dan $|\psi_B\rangle$ adalah keadaan subsistem A dan B.
+
+## Keadaan Bell: Contoh Entanglement Paling Sederhana
+
+Keadaan Bell adalah contoh paling sederhana dari keadaan terbelit maksimal antara dua qubit. Terdapat empat keadaan Bell yang membentuk basis ortonormal dalam ruang Hilbert dimensi empat dari sistem dua qubit:
+
+$$|\Phi^+\rangle = \frac{1}{\sqrt{2}}(|00\rangle + |11\rangle)$$
+
+$$|\Phi^-\rangle = \frac{1}{\sqrt{2}}(|00\rangle - |11\rangle)$$
+
+$$|\Psi^+\rangle = \frac{1}{\sqrt{2}}(|01\rangle + |10\rangle)$$
+
+$$|\Psi^-\rangle = \frac{1}{\sqrt{2}}(|01\rangle - |10\rangle)$$
+
+Keadaan $|\Psi^-\rangle$ dikenal sebagai keadaan singlet dan memiliki sifat yang sangat istimewa dalam berbagai aplikasi kuantum.
+
+## Menciptakan Keadaan Terbelit
+
+### Rangkaian Bell
+
+Rangkaian Bell adalah cara standar untuk menciptakan keadaan Bell $|\Phi^+\rangle$ dari keadaan dasar $|00\rangle$:
+
+```
+q₀: ───H───●───
+           │
+q₁: ───────X───
+```
+
+Rangkaian ini terdiri dari gerbang Hadamard pada qubit pertama diikuti oleh gerbang CNOT dengan qubit pertama sebagai kontrol dan qubit kedua sebagai target.
+
+Analisis matematisnya adalah sebagai berikut:
+
+1. Keadaan awal: $|00\rangle$
+2. Setelah Hadamard pada q₀: $\frac{1}{\sqrt{2}}(|00\rangle + |10\rangle)$
+3. Setelah CNOT: $\frac{1}{\sqrt{2}}(|00\rangle + |11\rangle) = |\Phi^+\rangle$
+
+### Rangkaian untuk Keadaan Bell Lainnya
+
+Untuk menciptakan keadaan Bell lainnya, kita dapat memodifikasi rangkaian Bell dasar:
+
+- Untuk $|\Phi^-\rangle$: Tambahkan gerbang Z pada q₁ setelah CNOT
+- Untuk $|\Psi^+\rangle$: Tambahkan gerbang X pada q₁ sebelum CNOT
+- Untuk $|\Psi^-\rangle$: Tambahkan gerbang X pada q₁ sebelum CNOT dan gerbang Z pada q₁ setelah CNOT
+
+## Sifat-Sifat Entanglement
+
+### Korelasi Non-Lokal
+
+Ketika dua partikel terbelit, pengukuran pada satu partikel secara instan memengaruhi hasil pengukuran pada partikel lain, terlepas dari jarak yang memisahkan keduanya. Inilah yang disebut Einstein sebagai "spooky action at a distance" (aksi hantu pada jarak jauh).
+
+Misalnya, kalau kita memiliki keadaan Bell $|\Phi^+\rangle = \frac{1}{\sqrt{2}}(|00\rangle + |11\rangle)$:
+
+- Jika q₀ diukur dan hasilnya |0⟩, maka q₁ juga akan terukur sebagai |0⟩
+- Jika q₀ diukur dan hasilnya |1⟩, maka q₁ juga akan terukur sebagai |1⟩
+
+Korelasi ini bersifat probabilistik tapo sempurna, dan melanggar gagasan klasik kalau informasi tidak dapat berpindah lebih cepat dari kecepatan cahaya.
+
+### Paradoks EPR dan Pertidaksamaan Bell
+
+Albert Einstein, Boris Podolsky, dan Nathan Rosen (EPR) memperkenalkan paradoks yang menantang kelengkapan mekanika kuantum. Mereka berpendapat bahwa entanglement menunjukkan bahwa mekanika kuantum tidak lengkap, dan harus ada "variabel tersembunyi" yang menentukan hasil pengukuran.
+
+John Bell kemudian merumuskan pertidaksamaan matematis (Bell's inequalities) yang malah menunjukkan kalau prediksi mekanika kuantum tidak kompatibel dengan teori variabel tersembunyi lokal. Eksperimen yang dilakukan sejak saat itu secara konsisten melanggar pertidaksamaan Bell, mendukung prediksi mekanika kuantum dan menunjukkan bahwa entanglement adalah fenomena nyata.
+
+Pertidaksamaan Bell yang paling sederhana adalah pertidaksamaan CHSH:
+
+$$|E(a,b) - E(a,b') + E(a',b) + E(a',b')| \leq 2$$
+
+di mana $E(a,b)$ adalah nilai ekspektasi dari pengukuran dengan setting $a$ dan $b$.
+
+Mekanika kuantum memprediksi nilai maksimum $2\sqrt{2} \approx 2.82$, yang telah dikonfirmasi oleh berbagai eksperimen.
+
+## Pengukuran pada Sistem Terbelit
+
+### Proyeksi Keadaan
+
+Ketika pengukuran dilakukan pada satu qubit dari pasangan terbelit, keadaan kedua qubit akan mengalami "proyeksi" atau "kolaps" sesuai dengan hasil pengukuran qubit pertama.
+
+Misalnya, untuk keadaan Bell $|\Phi^+\rangle = \frac{1}{\sqrt{2}}(|00\rangle + |11\rangle)$:
+
+- Jika q₀ diukur dalam basis komputasi dan hasilnya |0⟩, keadaan sistem akan berubah menjadi |00⟩
+- Jika q₀ diukur dalam basis komputasi dan hasilnya |1⟩, keadaan sistem akan berubah menjadi |11⟩
+
+### Matriks Densitas dan Entanglement
+
+Matriks densitas adalah cara yang berguna untuk menganalisis entanglement, terutama dalam sistem campuran. Untuk sistem murni dua qubit, matriks densitasnya adalah:
+
+$$\rho_{AB} = |\psi_{AB}\rangle\langle\psi_{AB}|$$
+
+Matriks densitas tereduksi dari subsistem A diperoleh dengan melakukan partial trace terhadap subsistem B:
+
+$$\rho_A = \text{Tr}_B(\rho_{AB})$$
+
+Jika keadaan terbelit, maka $\rho_A$ dan $\rho_B$ akan menjadi keadaan campuran, bukan keadaan murni.
+
+### Ukuran Entanglement
+
+Beberapa ukuran entanglement yang umum digunakan:
+
+1. **Entropi von Neumann**: $S(\rho_A) = -\text{Tr}(\rho_A \log_2 \rho_A)$
+   - Untuk keadaan terbelit maksimal, $S(\rho_A) = 1$
+   - Untuk keadaan terpisah, $S(\rho_A) = 0$
+
+2. **Concurrence**: $C(\rho) = \max\{0, \lambda_1 - \lambda_2 - \lambda_3 - \lambda_4\}$
+   - Di mana $\lambda_i$ adalah akar kuadrat dari eigenvalue dari $\rho(\sigma_y \otimes \sigma_y)\rho^*(\sigma_y \otimes \sigma_y)$ dalam urutan menurun
+
+3. **Negativity**: Jumlah eigenvalue negatif dari partial transpose matriks densitas
+
+## Aplikasi Entanglement dalam Komputasi Kuantum
+
+### Teleportasi Kuantum
+
+Teleportasi kuantum memungkinkan transfer keadaan kuantum dari satu lokasi ke lokasi lain menggunakan pasangan terbelit dan komunikasi klasik. Protokolnya melibatkan:
+
+1. Persiapan pasangan terbelit antara pengirim (Obama) dan penerima (Nabila)
+2. Pengirim melakukan operasi Bell pada qubit yang akan diteleportasikan dan bagian pasangan terbelitnya
+3. Pengirim mengukur kedua qubit dan mengirimkan hasil pengukuran (2 bit klasik) ke penerima
+4. Penerima melakukan koreksi pada qubitnya berdasarkan informasi yang diterima
+
+Rangkaian kuantum untuk teleportasi:
+
+```
+         ┌───┐     ┌─┐
+q₀: ──■──┤ H ├──■──┤M├───────────────── (qubit yang diteleportasikan)
+     │  └───┘  │  └─┘
+q₁: ─┼─────────┼────┤M├─────────────── (qubit Obama dari pasangan terbelit)
+     │         │    └─┘  ┌───┐ ┌───┐
+q₂: ─X─────────X─────────┤ X ├─┤ Z ├─ (qubit Nabila dari pasangan terbelit)
+                          └───┘ └───┘
+                           │     │
+                      kontrol kontrol
+                       dari   dari
+                      hasil  hasil
+                       q₀     q₁
+```
+
+### Kriptografi Kuantum (QKD)
+
+Protokol BB84 dan E91 memanfaatkan entanglement untuk membuat kunci kriptografi yang aman secara teoritis. E91 secara khusus menggunakan pasangan terbelit untuk mendeteksi kehadiran penyadap.
+
+### Komputasi Kuantum Terdistribusi
+
+Entanglement memungkinkan komputasi kuantum terdistribusi, dimana sumber daya kuantum dapat dibagi dan dioperasikan dari lokasi yang berbeda.
+
+## Entanglement Multi-Partite
+
+### Keadaan GHZ
+
+Keadaan Greenberger Horne Zeilinger (GHZ) adalah generalisasi keadaan Bell untuk tiga atau lebih qubit:
+
+$$|GHZ\rangle = \frac{1}{\sqrt{2}}(|00...0\rangle + |11...1\rangle)$$
+
+### Keadaan W
+
+Keadaan W adalah jenis entanglement multi partite lain dengan sifat keterberadaan yang berbeda:
+
+$$|W\rangle = \frac{1}{\sqrt{n}}(|10...0\rangle + |01...0\rangle + ... + |00...1\rangle)$$
+
+### Klasifikasi Entanglement Multi-Partite
+
+Entanglement multi partite memiliki struktur yang lebih kaya dan kompleks dibandingkan entanglement dua partite. Klasifikasi lengkap masih menjadi subjek penelitian aktif.
+
+## Algoritma Kuantum yang Memanfaatkan Entanglement
+
+### Algoritma Deutsch-Jozsa
+
+Algoritma ini memanfaatkan superposisi dan entanglement untuk menentukan apakah fungsi boolean bersifat konstan atau seimbang dengan satu evaluasi.
+
+### Algoritma Grover
+
+Algoritma pencarian Grover menciptakan entanglement antar qubit yang memungkinkan amplifikasi amplitudo keadaan target, mempercepat pencarian dalam database yg tidak terurut.
+
+### Algoritma Shor
+
+Algoritma Shor untuk faktorisasi bilangan besar memanfaatkan entanglement dalam transformasi Fourier kuantum, yang merupakan bagian kunci dari algoritma.
 
 
 # Materi 3: Interferensi Kuantum
@@ -513,27 +701,26 @@ q₁: ─────────────X─────H─────
 ```python
 from qiskit import QuantumCircuit, transpile, Aer, execute
 
-# 🔹 KASUS |00⟩ + |11⟩ (fase positif)
-qc1 = QuantumCircuit(2, 2)
+# 🔹 Membuat quantum circuit
+qc = QuantumCircuit(2, 2)
 
-qc1.h(0)        # Hadamard di q0 → superposisi
-qc1.cx(0, 1)    # CNOT (q0 mengontrol q1) → entanglement
+qc.h(0)        # Hadamard di q0 → superposisi
+qc.cx(0, 1)    # CNOT (q0 mengontrol q1) → entanglement
+qc.h(1)        # Hadamard kedua di q1
+qc.measure(0, 0)
+qc.measure(1, 1)
 
-qc1.h(1)        # Hadamard kedua di q1
-qc1.measure(0, 0)
-qc1.measure(1, 1)
-
-
-# 🔹 Mensimmulasikan
+# 🔹 Simulasikan eksperimen
 simulator = Aer.get_backend('aer_simulator')
 
-compiled_qc1 = transpile(qc1, simulator)
+compiled_qc = transpile(qc, simulator)
 
-result1 = simulator.run(compiled_qc1, shots=1000).result()
+result = simulator.run(compiled_qc, shots=1000).result()
 
 # 🔹 Tampilkan hasilnya
-print("Hasil pengukuran untuk |00⟩ + |11⟩:")
-print(result1.get_counts())
+print("Hasil pengukuran:")
+print(result.get_counts())
+
 
 ```
 
