@@ -849,7 +849,7 @@ Untuk mendapatkan hanya keadaan $|00\rangle$ dan $|10\rangle$:
 
 Implementasi tulis:
 <div align="center">
-  <img src="assets/q1.jpg" alt="Image 1" width="200">
-  <img src="assets/q2.jpg" alt="Image 2" width="200">
-  <img src="assets/q3.jpg" alt="Image 3" width="200">
+  <img src="assets/q1.jpg" alt="Image 1" width="250">
+  <img src="assets/q2.jpg" alt="Image 2" width="250">
+  <img src="assets/q3.jpg" alt="Image 3" width="250">
 </div>
