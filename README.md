@@ -835,6 +835,13 @@ q₁: ─────────── (tetap |0⟩)
 Rangkaian ini langsung menghasilkan keadaan:
 $$|\psi\rangle = \frac{|00\rangle + |10\rangle}{\sqrt{2}}$$
 
+## Implementasi tulis:
+<div align="center">
+  <img src="assets/q1.jpg" alt="Image 1" width="250">
+  <img src="assets/q2.jpg" alt="Image 2" width="250">
+  <img src="assets/q3.jpg" alt="Image 3" width="250">
+</div>
+
 ## Kesimpulan
 
 Rangkaian Hadamard-CNOT-Hadamard menghasilkan keadaan:
@@ -847,9 +854,4 @@ Untuk mendapatkan hanya keadaan $|00\rangle$ dan $|10\rangle$:
 2. Atau gunakan rangkaian yang lebih sederhana dengan hanya mengaplikasikan Hadamard pada q₀
 
 
-Implementasi tulis:
-<div align="center">
-  <img src="assets/q1.jpg" alt="Image 1" width="250">
-  <img src="assets/q2.jpg" alt="Image 2" width="250">
-  <img src="assets/q3.jpg" alt="Image 3" width="250">
-</div>
+
