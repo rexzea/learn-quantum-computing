@@ -846,3 +846,10 @@ Untuk mendapatkan hanya keadaan $|00\rangle$ dan $|10\rangle$:
 1. Lakukan pengukuran pada q₁ dan pilih hasil $|0\rangle$ (post-selection)
 2. Atau gunakan rangkaian yang lebih sederhana dengan hanya mengaplikasikan Hadamard pada q₀
 
+
+Implementasi tulis:
+<div align="center">
+  <img src="assets/q1.jpg" alt="Image 1" width="300">
+  <img src="assets/q2.jpg" alt="Image 2" width="300">
+  <img src="assets/q3.jpg" alt="Image 3" width="300">
+</div>
