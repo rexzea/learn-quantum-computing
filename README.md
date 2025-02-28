@@ -1,214 +1,4 @@
 # 1. Rumus Qubit & Superposisi
-Qubit bisa dituliskan dalam bentuk:
-
-∣
-𝜓
-⟩
-=
-𝛼
-∣
-0
-⟩
-+
-𝛽
-∣
-1
-⟩
-∣ψ⟩=α∣0⟩+β∣1⟩
-artinya:
-
-∣
-0
-⟩
-∣0⟩ dan 
-∣
-1
-⟩
-∣1⟩ adalah dua keadaan dasar (kayak 0 dan 1 di komputer biasa).
-
-𝛼
-α dan 
-𝛽
-β adalah angka yg menunjukkan seberapa besar peluang qubit jadi 0 atau 1 ketika diukur.
-
-Probabilitas total harus 1, jadi:
-
-∣
-𝛼
-∣
-2
-+
-∣
-𝛽
-∣
-2
-=
-1
-∣α∣ 
-2
- +∣β∣ 
-2
- =1
-Contoh rumus dalam angka
-kalau:
-
-∣
-𝜓
-⟩
-=
-1
-2
-∣
-0
-⟩
-+
-1
-2
-∣
-1
-⟩
-∣ψ⟩= 
-2
-​
- 
-1
-​
- ∣0⟩+ 
-2
-​
- 
-1
-​
- ∣1⟩
-maka:
-
-𝛼
-=
-1
-2
-α= 
-2
-​
- 
-1
-​
-  → peluang 0 adalah 
-(
-1
-2
-)
-2
-=
-0.5
-( 
-2
-​
- 
-1
-​
- ) 
-2
- =0.5 (50%).
-𝛽
-=
-1
-2
-β= 
-2
-​
- 
-1
-​
-  → peluang 1 juga 50%.
-jadi kalau diukur banyak kali, setengahnya bakal jadi 0, setengahnya bakal jadi 1.
-
-2. Gerbang Hadamard (H-Gate) untuk Superposisi
-Hadamard adalah gerbang kuantum yg mengubah |0⟩ atau |1⟩ jadi superposisi.
-
-rumus dalam bentuk matriks:
-
-𝐻
-=
-1
-2
-[
-1
-1
-1
-−
-1
-]
-H= 
-2
-​
- 
-1
-​
- [ 
-1
-1
-​
-  
-1
-−1
-​
- ]
-kalau di terapkan ke |0⟩, hasilnya:
-
-𝐻
-∣
-0
-⟩
-=
-1
-2
-(
-∣
-0
-⟩
-+
-∣
-1
-⟩
-)
-H∣0⟩= 
-2
-​
- 
-1
-​
- (∣0⟩+∣1⟩)
-(jadi superposisi dgn peluang 50% jadi 0 dan 50% jadi 1).
-
-kalau di terapkan ke |1⟩, hasilnya:
-
-𝐻
-∣
-1
-⟩
-=
-1
-2
-(
-∣
-0
-⟩
-−
-∣
-1
-⟩
-)
-H∣1⟩= 
-2
-​
- 
-1
-​
- (∣0⟩−∣1⟩)
-(ini juga superposisi, tapi dengan perbedaan fase).
-
-
-
 ### Kode Python :
 
 - Linear accuracy
@@ -258,6 +48,161 @@ meas: 2/══════════════╩══╩═
                       0  1
 ```
 
+
+# Qubit dan Superposisi dalam Komputasi Kuantum
+
+## Konsep Dasar Qubit
+
+Qubit (quantum bit) adalah e;emen dasar informasi kuantum, analog dengan bit klasik namun dengan properti kuantum yang beda. Berbeda dengan bit klasik yang hanya dapat berada dalam keadaan 0 atau 1, qubit dapat berada dalam superposisi keduanya.
+
+### Representasi Matematis Qubit
+
+Secara matematis, keadaan qubit dapat direpresentasikan sebagai vektor keadaan dalam ruang Hilbert dua dimensi. dengan cara menggunakan notasi Dirac, basis komputasi standar yg bisa di tulskan seperti ini:
+
+- |0⟩ = [1, 0]ᵀ (analog dengan bit klasik 0)
+- |1⟩ = [0, 1]ᵀ (analog dengan bit klasik 1)
+
+Keadaan umum sebuah qubit dapat dituliskan sebagai kombinasi linear dari basis komputasi:
+
+|ψ⟩ = α|0⟩ + β|1⟩
+
+dimana α dan β adalah bilangan kompleks yang memenuhi syarat normalisasi:
+
+|α|² + |β|² = 1
+
+Koefisien α dan β menentukan amplitudo probabilitas. Ketika qubit diukur dalam basis komputasi standar:
+- Probabilitas mendapatkan hasil |0⟩ adalah |α|²
+- Probabilitas mendapatkan hasil |1⟩ adalah |β|²
+
+### Representasi Geometris: Menggunakan konsep Bola
+
+Keadaan murni sebuah qubit dapat divisualisasikan pada bola, dimana:
+
+|ψ⟩ = cos(θ/2)|0⟩ + e^(iφ)sin(θ/2)|1⟩
+
+dengan:
+- θ adalah sudut polar (0 ≤ θ ≤ π)
+- φ adalah sudut azimuthal (0 ≤ φ < 2π)
+
+Keadaan klasik(komputer klasik) |0⟩ dan |1⟩ berada pada kutub utara dan selatan bola, sedangkan superposisi berada di tempat lain pada permukaan bola.
+
+## Superposisi Kuantum
+
+Superposisi adalah keadaan kuantum dimana sistem berada dalam beberapa keadaan basis secara simultan sampai saat pengukuran.
+
+### Properti Matematika Superposisi
+
+Kalau |ψ₁⟩, |ψ₂⟩, ..., |ψₙ⟩ adalah keadaan kuantum yang mungkin, maka superposisi linear mereka:
+
+|ψ⟩ = c₁|ψ₁⟩ + c₂|ψ₂⟩ + ... + cₙ|ψₙ⟩
+
+juga merupakan keadaan kuantum yang valid, dengan syarat normalisasi |c₁|² + |c₂|² + ... + |cₙ|² = 1.
+
+### Contoh Penting Superposisi
+
+1. **Keadaan Bell**:
+   Keadaan terbelit maksimal antara dua qubit:
+   |Φ⁺⟩ = (|00⟩ + |11⟩)/√2
+
+2. **Keadaan Superposisi Merata**:
+   Dibuat dengan menerapkan gerbang Hadamard pada keadaan |0⟩:
+   H|0⟩ = (|0⟩ + |1⟩)/√2
+
+3. **Keadaan GHZ**:
+   Superposisi multi-qubit:
+   |GHZ⟩ = (|000...0⟩ + |111...1⟩)/√2
+
+4. **Keadaan W**:
+   Superposisi dengan satu qubit dalam keadaan |1⟩:
+   |W⟩ = (|100...0⟩ + |010...0⟩ + ... + |000...1⟩)/√n
+
+### Menciptakan Superposisi
+
+Salah satu cara paling mudah buat menciptakan superposisi itu menggunakan gerbang Hadamard:
+
+1. Mulai dengan qubit dalam keadaan basis |0⟩
+2. Terapkan gerbang Hadamard (H) untuk mendapatkan:
+   H|0⟩ = (|0⟩ + |1⟩)/√2
+
+Untuk membuat superposisi dari n qubit, kita harusmenerapkan gerbang Hadamard pada semua qubit:
+H⊗ⁿ|0⟩⊗ⁿ = (1/√2ⁿ) ∑ₓ |x⟩
+
+dimana jumlahan dilakukan atas semua 2ⁿ string biner x.
+
+## Register Qubit dan Pengukuran
+
+### Register Qubit
+
+Register qubit terdiri dari beberapa qubit yg beroperasi bersama. Keadaan register Nqubit berada dalam ruang Hilbert 2ⁿ dimensi, yang memungkinkan superposisinya eksponensial.
+
+Keadaan umum register n-qubit:
+
+|ψ⟩ = ∑ₓ cₓ|x⟩
+
+dimana x berjalan melalui semua 2ⁿ string biner dan ∑ₓ |cₓ|² = 1.
+
+### Proses Pengukuran
+
+Saat pengukuran dilakukan pada qubit dalam superposisi:
+
+1. Keadaan kuantum "kolaps" ke salah satu keadaan basis
+2. Hasil pengukuran bersifat probabilistik
+3. Informasi superposisi hilang setelah pengukuran
+
+Untuk keadaan |ψ⟩ = α|0⟩ + β|1⟩, pengukuran menghasilkan:
+- |0⟩ dengan probabilitas |α|²
+- |1⟩ dengan probabilitas |β|²
+
+### Fenomena
+
+1. **Interferensi Kuantum**:
+   Amplitudo probabilitas bisa saling memperkuat atau meniadakan, menghasilkan pola interferensi yg tidak ada padanannya dalam komputer klasik.
+
+2. **Entanglement (Keterbelitan)**:
+   Keadaan dua atau lebih qubit yang tidak dapat dideskripsikan secara terpisah. Contohnya:
+   |Φ⁺⟩ = (|00⟩ + |11⟩)/√2
+
+3. **Paralelisme Kuantum**:
+   Kemampuan untuk mengevaluasi fungsi pada superposisi input, secara efektif melakukan banyak perhitungan secara simultan.
+
+## Rumus
+
+### Produk Tensor
+
+Untuk menggabungkan sistem qubit, gunakan produk tensor:
+|ψ₁⟩ ⊗ |ψ₂⟩ = |ψ₁ψ₂⟩
+
+Contoh: (α|0⟩ + β|1⟩) ⊗ (γ|0⟩ + δ|1⟩) = αγ|00⟩ + αδ|01⟩ + βγ|10⟩ + βδ|11⟩
+
+### Evolusi Kuantum
+
+Evolusi keadaan kuantum diberikan oleh operator uniter U:
+|ψ(t)⟩ = U|ψ(0)⟩
+
+Dalam kasus kontinu:
+i·ħ·∂|ψ(t)⟩/∂t = H|ψ(t)⟩
+
+dimana H ini adalah operator Hamiltonian sistem.
+
+### Operator Densitas
+
+Untuk sistem campuran, keadaan dapat direpresentasikan dengan operator densitas:
+ρ = ∑ᵢ pᵢ|ψᵢ⟩⟨ψᵢ|
+
+dimana pᵢ adalah probabilitas klasik bahwa sistem berada dalam keadaan |ψᵢ⟩.
+
+## Hubungan dengan Algoritma Kuantum
+
+Konsep qubit & superposisi adalah fondasi bagi algoritma kuantum seperti Deutsch Jozsa, Grover, dan Shor:
+
+1. **Algoritma Deutsch-Jozsa**:
+   Memanfatkan superposisi untuk mengevaluasi fungsi f(x) pada semua input secara simultan.
+
+2. **Algoritma Grover**:
+   Menggunakan superposisi dan interferensi kuantum buat mempercepat pencarian dalam database yg tidak terurut.
+
+3. **Algoritma Shor**:
+   Memanfaatkan transformasi Fourier kuantum yang bekerja pada superposisi untuk faktorisasi bilangan besar.
 
 
 
