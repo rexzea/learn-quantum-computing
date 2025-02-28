@@ -494,7 +494,7 @@ di mana r ≈ π/4 · √N adalah jumlah iterasi optimal.
 
 
 
-# Materi 4 : Analisis Rangkaian: Hadamard → CNOT → Hadamard
+# Materi 5 : Analisis Rangkaian: Hadamard → CNOT → Hadamard
 
 Dalam dokumen ini, kita akan menganalisis rangkaian kuantum dengan urutan operasi sebagai berikut:
 1. Gerbang Hadamard pada q₀ (menciptakan superposisi)
@@ -510,6 +510,37 @@ q₁: ─────────────X─────H─────
 ```
 
 ## Representasi Matematis Gerbang
+```python
+from qiskit import QuantumCircuit, transpile, Aer, execute
+
+# 🔹 KASUS |00⟩ + |11⟩ (fase positif)
+qc1 = QuantumCircuit(2, 2)
+
+qc1.h(0)        # Hadamard di q0 → superposisi
+qc1.cx(0, 1)    # CNOT (q0 mengontrol q1) → entanglement
+
+qc1.h(1)        # Hadamard kedua di q1
+qc1.measure(0, 0)
+qc1.measure(1, 1)
+
+
+# 🔹 Mensimmulasikan
+simulator = Aer.get_backend('aer_simulator')
+
+compiled_qc1 = transpile(qc1, simulator)
+
+result1 = simulator.run(compiled_qc1, shots=1000).result()
+
+# 🔹 Tampilkan hasilnya
+print("Hasil pengukuran untuk |00⟩ + |11⟩:")
+print(result1.get_counts())
+
+```
+
+Result :
+```
+{'00': ~500, '10': ~500}  # (kurang lebih seimbang)
+```
 
 ### Gerbang Hadamard (H)
 
@@ -534,7 +565,7 @@ $$\text{CNOT}|01\rangle = |01\rangle$$
 $$\text{CNOT}|10\rangle = |11\rangle$$
 $$\text{CNOT}|11\rangle = |10\rangle$$
 
-## Analisis Langkah demi Langkah
+## Penjelassn Langkah demi Langkah
 
 ### Keadaan Awal
 Kita mulai dengan keadaan awal dua qubit:
@@ -561,7 +592,7 @@ $$|\psi_2\rangle = \frac{\text{CNOT}|00\rangle + \text{CNOT}|10\rangle}{\sqrt{2}
 Keadaan ini adalah keadaan Bell $|\Phi^+\rangle$, salah satu dari keadaan terbelit maksimal.
 
 ### Langkah 3: Hadamard pada q₁
-Aplikasi gerbang Hadamard pada qubit kedua (q₁):
+Mengaplikasi gerbang Hadamard pada qubit kedua (q₁):
 
 $$|\psi_3\rangle = (I \otimes H)|\psi_2\rangle = (I \otimes H) \cdot \frac{|00\rangle + |11\rangle}{\sqrt{2}}$$
 
@@ -579,11 +610,11 @@ $$|\psi_3\rangle = \frac{1}{2} \left( |00\rangle + |01\rangle + |10\rangle - |11
 
 ## Analisis Probabilitas Pengukuran
 
-Setelah rangkaian lengkap, keadaan akhir sistem adalah:
+Setelah rangkaiannya lengkap, keadaan akhir sistemnya jadi:
 
 $$|\psi_\text{final}\rangle = \frac{1}{2} \left( |00\rangle + |01\rangle + |10\rangle - |11\rangle \right)$$
 
-Jika kita melakukan pengukuran pada kedua qubit dalam basis komputasi standar, probabilitas mendapatkan masing-masing hasil adalah:
+Kalau kita melakukan pengukuran pada kedua qubit dalam basis komputasi standar, probabilitas mendapatkan masing2 hasil adalah:
 
 $$P(|00\rangle) = \left| \frac{1}{2} \right|^2 = \frac{1}{4}$$
 $$P(|01\rangle) = \left| \frac{1}{2} \right|^2 = \frac{1}{4}$$
@@ -596,7 +627,7 @@ $$P(|11\rangle) = \left| -\frac{1}{2} \right|^2 = \frac{1}{4}$$
 
 Untuk mendapatkan hanya keadaan $|00\rangle$ dan $|10\rangle$, kita bisa mengukur qubit kedua (q₁) terlebih dahulu.
 
-Jika kita mengukur q₁ dan mendapatkan hasil $|0\rangle$, keadaan akan menjadi:
+Kalau kita mengukur q₁ dan mendapatkan hasil $|0\rangle$, keadaan akan menjadi:
 
 $$|\psi_\text{collapse}\rangle = \frac{|00\rangle + |10\rangle}{\sqrt{2}}$$
 
@@ -607,7 +638,7 @@ $$P(q_1 = |0\rangle) = P(|00\rangle) + P(|10\rangle) = \frac{1}{4} + \frac{1}{4}
 
 ### Menggunakan Modifikasi Rangkaian
 
-Alternatif lain, jika tujuan kita hanya ingin mendapatkan superposisi dari $|00\rangle$ dan $|10\rangle$, kita bisa menggunakan rangkaian yang lebih sederhana:
+Alternatif lain, kalau tujuan kita hanya ingin mendapatkan superposisi dari $|00\rangle$ dan $|10\rangle$, kita bisa menggunakan rangkaian yang lebih sederhana:
 
 ```
 q₀: ─────H─────
@@ -628,4 +659,3 @@ Untuk mendapatkan hanya keadaan $|00\rangle$ dan $|10\rangle$:
 1. Lakukan pengukuran pada q₁ dan pilih hasil $|0\rangle$ (post-selection)
 2. Atau gunakan rangkaian yang lebih sederhana dengan hanya mengaplikasikan Hadamard pada q₀
 
-Kasus ini menunjukkan bagaimana pengukuran kuantum dapat memengaruhi keadaan sistem dan bagaimana rangkaian kuantum dapat dirancang untuk menghasilkan keadaan yang diinginkan.
