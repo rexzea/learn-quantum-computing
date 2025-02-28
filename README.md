@@ -491,3 +491,141 @@ di mana r ≈ π/4 · √N adalah jumlah iterasi optimal.
 
 - **Gerbang Hadamard**: Digunakan untuk menciptakan superposisi awal yg merata dari semua basis komputasi, serta sebagai komponen dalam operator bagian difusi (D)
 - **CNOT**: ini diigunakan dalam implementasi oracle buat mendeteksi keadaan target dan dalam operator difusi untuk mengimplementasikan refleksinya
+
+
+
+# Materi 4 : Analisis Rangkaian: Hadamard → CNOT → Hadamard
+
+Dalam dokumen ini, kita akan menganalisis rangkaian kuantum dengan urutan operasi sebagai berikut:
+1. Gerbang Hadamard pada q₀ (menciptakan superposisi)
+2. Gerbang CNOT dengan q₀ sebagai kontrol dan q₁ sebagai target
+3. Gerbang Hadamard pada q₁
+
+## Diagram Rangkaian
+
+```
+q₀: ─────H─────●─────────────
+                │
+q₁: ─────────────X─────H─────
+```
+
+## Representasi Matematis Gerbang
+
+### Gerbang Hadamard (H)
+
+$$H = \frac{1}{\sqrt{2}} \begin{pmatrix} 1 & 1 \\ 1 & -1 \end{pmatrix}$$
+
+Transformasi basis:
+$$H|0\rangle = \frac{|0\rangle + |1\rangle}{\sqrt{2}}$$
+$$H|1\rangle = \frac{|0\rangle - |1\rangle}{\sqrt{2}}$$
+
+### Gerbang CNOT
+
+$$\text{CNOT} = \begin{pmatrix} 
+1 & 0 & 0 & 0 \\
+0 & 1 & 0 & 0 \\
+0 & 0 & 0 & 1 \\
+0 & 0 & 1 & 0 
+\end{pmatrix}$$
+
+Transformasi basis:
+$$\text{CNOT}|00\rangle = |00\rangle$$
+$$\text{CNOT}|01\rangle = |01\rangle$$
+$$\text{CNOT}|10\rangle = |11\rangle$$
+$$\text{CNOT}|11\rangle = |10\rangle$$
+
+## Analisis Langkah demi Langkah
+
+### Keadaan Awal
+Kita mulai dengan keadaan awal dua qubit:
+$$|\psi_0\rangle = |00\rangle$$
+
+### Langkah 1: Hadamard pada q₀
+Aplikasi gerbang Hadamard pada qubit pertama (q₀):
+
+$$|\psi_1\rangle = (H \otimes I)|00\rangle = (H|0\rangle) \otimes (I|0\rangle)$$
+
+Substitusi dengan definisi H:
+$$|\psi_1\rangle = \frac{|0\rangle + |1\rangle}{\sqrt{2}} \otimes |0\rangle = \frac{|00\rangle + |10\rangle}{\sqrt{2}}$$
+
+Pada titik ini, kita memiliki superposisi dari dua keadaan basis: $|00\rangle$ dan $|10\rangle$ dengan amplitudo yang sama.
+
+### Langkah 2: CNOT dengan q₀ sebagai kontrol dan q₁ sebagai target
+Aplikasi gerbang CNOT:
+
+$$|\psi_2\rangle = \text{CNOT} \cdot |\psi_1\rangle = \text{CNOT} \cdot \frac{|00\rangle + |10\rangle}{\sqrt{2}}$$
+
+Kita dapat menghitung ini suku per suku:
+$$|\psi_2\rangle = \frac{\text{CNOT}|00\rangle + \text{CNOT}|10\rangle}{\sqrt{2}} = \frac{|00\rangle + |11\rangle}{\sqrt{2}}$$
+
+Keadaan ini adalah keadaan Bell $|\Phi^+\rangle$, salah satu dari keadaan terbelit maksimal.
+
+### Langkah 3: Hadamard pada q₁
+Aplikasi gerbang Hadamard pada qubit kedua (q₁):
+
+$$|\psi_3\rangle = (I \otimes H)|\psi_2\rangle = (I \otimes H) \cdot \frac{|00\rangle + |11\rangle}{\sqrt{2}}$$
+
+Kita dapat memecah perhitungan ini:
+
+$$(I \otimes H)|00\rangle = |0\rangle \otimes H|0\rangle = |0\rangle \otimes \frac{|0\rangle + |1\rangle}{\sqrt{2}} = \frac{|00\rangle + |01\rangle}{\sqrt{2}}$$
+
+$$(I \otimes H)|11\rangle = |1\rangle \otimes H|1\rangle = |1\rangle \otimes \frac{|0\rangle - |1\rangle}{\sqrt{2}} = \frac{|10\rangle - |11\rangle}{\sqrt{2}}$$
+
+Sehingga:
+
+$$|\psi_3\rangle = \frac{1}{\sqrt{2}} \left( \frac{|00\rangle + |01\rangle}{\sqrt{2}} + \frac{|10\rangle - |11\rangle}{\sqrt{2}} \right)$$
+
+$$|\psi_3\rangle = \frac{1}{2} \left( |00\rangle + |01\rangle + |10\rangle - |11\rangle \right)$$
+
+## Analisis Probabilitas Pengukuran
+
+Setelah rangkaian lengkap, keadaan akhir sistem adalah:
+
+$$|\psi_\text{final}\rangle = \frac{1}{2} \left( |00\rangle + |01\rangle + |10\rangle - |11\rangle \right)$$
+
+Jika kita melakukan pengukuran pada kedua qubit dalam basis komputasi standar, probabilitas mendapatkan masing-masing hasil adalah:
+
+$$P(|00\rangle) = \left| \frac{1}{2} \right|^2 = \frac{1}{4}$$
+$$P(|01\rangle) = \left| \frac{1}{2} \right|^2 = \frac{1}{4}$$
+$$P(|10\rangle) = \left| \frac{1}{2} \right|^2 = \frac{1}{4}$$
+$$P(|11\rangle) = \left| -\frac{1}{2} \right|^2 = \frac{1}{4}$$
+
+## Mendapatkan Hasil Hanya |00⟩ dan |10⟩
+
+### Menggunakan Pengukuran dan Post-Selection
+
+Untuk mendapatkan hanya keadaan $|00\rangle$ dan $|10\rangle$, kita bisa mengukur qubit kedua (q₁) terlebih dahulu.
+
+Jika kita mengukur q₁ dan mendapatkan hasil $|0\rangle$, keadaan akan menjadi:
+
+$$|\psi_\text{collapse}\rangle = \frac{|00\rangle + |10\rangle}{\sqrt{2}}$$
+
+Ini terjadi karena saat mengukur q₁ dan mendapatkan $|0\rangle$, keadaan akan mengalami kolaps menjadi superposisi dari semua keadaan yang memiliki q₁ = $|0\rangle$, yaitu $|00\rangle$ dan $|10\rangle$.
+
+Probabilitas mendapatkan q₁ = $|0\rangle$ adalah:
+$$P(q_1 = |0\rangle) = P(|00\rangle) + P(|10\rangle) = \frac{1}{4} + \frac{1}{4} = \frac{1}{2}$$
+
+### Menggunakan Modifikasi Rangkaian
+
+Alternatif lain, jika tujuan kita hanya ingin mendapatkan superposisi dari $|00\rangle$ dan $|10\rangle$, kita bisa menggunakan rangkaian yang lebih sederhana:
+
+```
+q₀: ─────H─────
+q₁: ─────────── (tetap |0⟩)
+```
+
+Rangkaian ini langsung menghasilkan keadaan:
+$$|\psi\rangle = \frac{|00\rangle + |10\rangle}{\sqrt{2}}$$
+
+## Kesimpulan
+
+Rangkaian Hadamard-CNOT-Hadamard menghasilkan keadaan:
+$$|\psi\rangle = \frac{1}{2} \left( |00\rangle + |01\rangle + |10\rangle - |11\rangle \right)$$
+
+Yang memiliki amplitudo yang sama untuk semua basis komputasi (meskipun dengan fase berbeda untuk $|11\rangle$).
+
+Untuk mendapatkan hanya keadaan $|00\rangle$ dan $|10\rangle$:
+1. Lakukan pengukuran pada q₁ dan pilih hasil $|0\rangle$ (post-selection)
+2. Atau gunakan rangkaian yang lebih sederhana dengan hanya mengaplikasikan Hadamard pada q₀
+
+Kasus ini menunjukkan bagaimana pengukuran kuantum dapat memengaruhi keadaan sistem dan bagaimana rangkaian kuantum dapat dirancang untuk menghasilkan keadaan yang diinginkan.
