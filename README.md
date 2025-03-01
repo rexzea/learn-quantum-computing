@@ -394,10 +394,10 @@ Rangkaian kuantum untuk teleportasi:
 ```
          ┌───┐     ┌─┐
 q₀: ──■──┤ H ├──■──┤M├───────────────── (qubit yang diteleportasikan)
-     │  └───┘  │  └─┘
-q₁: ─┼─────────┼────┤M├─────────────── (qubit Obama dari pasangan terbelit)
-     │         │    └─┘  ┌───┐ ┌───┐
-q₂: ─X─────────X─────────┤ X ├─┤ Z ├─ (qubit Nabila dari pasangan terbelit)
+      │  └───┘  │  └─┘
+q₁: ──┼─────────┼────┤M├─────────────── (qubit Obama dari)
+      │         │    └─┘  ┌───┐ ┌───┐
+q₂: ──X─────────X─────────┤ X ├─┤ Z ├─ (qubit Nabila)
                           └───┘ └───┘
                            │     │
                       kontrol kontrol
