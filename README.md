@@ -541,6 +541,410 @@ meas: 1/═════════╩═
  jadi, kalau Hadamard diterapkan genap kali (2, 4, 6, 8, ...), qubit kembali ke keadaan awal. alias Hadamard seperti saklar.
 
 
+## Prinsip Dasar Interferensi Kuantum
+
+Dalam mekanika kuantum, interferensi terjadi ketika dua atau lebih gelombang probabilitas kuantum berinteraksi dan saling memengaruhi. Hal ini dapat menghasilkan efek konstruktif (penguatan) atau destruktif (pelemahan) pada amplitudo probabilitas.
+
+Secara matematis, amplitudo probabilitas $\psi$ dari sistem kuantum dapat dinyatakan sebagai kombinasi linear dari keadaan basis:
+
+$$
+\boxed{\psi = \sum_{i} c_i |i\rangle}
+$$
+
+dimana:
+- $c_i$ adalah koefisien kompleks yang menentukan amplitudo untuk keadaan basis $|i\rangle$
+- $|i\rangle$ adalah vektor keadaan basis dalam ruang Hilbert
+- Koefisien $c_i$ dapat direpresentasikan sebagai $c_i = |c_i|e^{i\theta_i}$ dengan $\theta_i$ adalah fase
+- $|c_i|^2$ memberikan probabilitas pengukuran sistem dalam keadaan $|i\rangle$
+- Jumlah semua probabilitas harus sama dengan 1: $\sum_i |c_i|^2 = 1$ (normalisasi)
+
+Fase $\theta_i$ memainkan peran krusial dalam interferensi kuantum, karena amplitudo dengan fase yang berbeda dapat saling memperkuat atau meniadakan.
+
+### Superposisi Kuantum
+
+Superposisi adalah prinsip dasar mekanika kuantum yang menyatakan bahwa sistem kuantum dapat berada dalam kombinasi linear dari keadaan-keadaan basis. Untuk sistem qubit tunggal:
+
+$$
+\boxed{|\psi\rangle = \alpha|0\rangle + \beta|1\rangle}
+$$
+
+dimana:
+- $\alpha$ dan $\beta$ adalah bilangan kompleks
+- $|\alpha|^2 + |\beta|^2 = 1$ (kondisi normalisasi)
+- $|0\rangle$ dan $|1\rangle$ adalah keadaan basis komputasional
+
+### Gerbang Hadamard dan Penciptaan Superposisi
+
+Gerbang Hadamard ($H$) adalah transformasi uniter yang menciptakan superposisi dari keadaan basis. Matriks representasinya adalah:
+
+$$
+\boxed{H = \frac{1}{\sqrt{2}} \begin{pmatrix} 1 & 1 \\ 1 & -1 \end{pmatrix}}
+$$
+
+Aksi gerbang Hadamard pada keadaan basis:
+
+$$
+\begin{align}
+H|0\rangle &= \frac{1}{\sqrt{2}}(|0\rangle + |1\rangle) = |+\rangle \\
+H|1\rangle &= \frac{1}{\sqrt{2}}(|0\rangle - |1\rangle) = |-\rangle
+\end{align}
+$$
+
+Keadaan $|+\rangle$ dan $|-\rangle$ adalah basis dalam basis Hadamard.
+
+## Algoritma Kuantum dan Interferensi
+
+### Algoritma Deutsch Jozsa
+
+Algoritma Deutsch-Jozsa memanfaatkan interferensi kuantum untuk menentukan apakah sebuah fungsi Boolean $f(x)$ adalah konstan atau seimbang dengan satu kali evaluasi, sedangkan algoritma klasik memerlukan $2^{n-1}+1$ evaluasi dalam kasus terburuk.
+
+#### Langkah-langkah Algoritma:
+
+1. **Inisialisasi** dua register kuantum:
+   
+   $$|\psi_0\rangle = |0\rangle^{\otimes n} |1\rangle$$
+   
+   Dimana:
+   - $|0\rangle^{\otimes n}$ menyatakan $n$ qubit dalam keadaan $|0\rangle$
+   - Qubit terakhir diinisialisasi ke keadaan $|1\rangle$ untuk memfasilitasi transformasi fase
+
+2. **Penerapan Gerbang Hadamard** ke semua qubit:
+   
+$$
+\begin{align}
+|\psi_1\rangle &= H^{\otimes (n+1)}|\psi_0\rangle \\
+&= (H^{\otimes n}|0\rangle^{\otimes n}) \otimes (H|1\rangle) \\
+&= \left(\frac{1}{\sqrt{2^n}}\sum_{x=0}^{2^n-1}|x\rangle\right) \otimes \left(\frac{|0\rangle - |1\rangle}{\sqrt{2}}\right) \\
+&= \frac{1}{\sqrt{2^n}}\sum_{x=0}^{2^n-1}|x\rangle \otimes \frac{|0\rangle - |1\rangle}{\sqrt{2}}
+\end{align}
+$$
+   
+   Keadaan ini merepresentasikan superposisi seragam dari semua nilai $x$ yang mungkin pada register pertama, dengan register kedua dalam keadaan $\frac{|0\rangle - |1\rangle}{\sqrt{2}}$.
+
+3. **Transformasi Oracle** $U_f$:
+   
+$$
+   \begin{align}
+   U_f|x\rangle|y\rangle = |x\rangle|y \oplus f(x)\rangle
+   \end{align}
+$$
+   
+   dimana $\oplus$ adalah operasi XOR. Ketika diterapkan pada keadaan $|\psi_1\rangle$:
+   
+$$
+   \begin{align}
+   |\psi_2\rangle &= U_f|\psi_1\rangle \\
+   &= U_f\left(\frac{1}{\sqrt{2^n}}\sum_{x=0}^{2^n-1}|x\rangle \otimes \frac{|0\rangle - |1\rangle}{\sqrt{2}}\right) \\
+   \end{align}
+$$
+   
+   Dengan substitusi $|y\rangle = \frac{|0\rangle - |1\rangle}{\sqrt{2}}$, kita mendapatkan:
+   
+$$
+   \begin{align}
+   |\psi_2\rangle &= \frac{1}{\sqrt{2^n}}\sum_{x=0}^{2^n-1}|x\rangle \otimes \frac{|0 \oplus f(x)\rangle - |1 \oplus f(x)\rangle}{\sqrt{2}} \\
+   &= \frac{1}{\sqrt{2^n}}\sum_{x=0}^{2^n-1}|x\rangle \otimes \frac{|f(x)\rangle - |1 \oplus f(x)\rangle}{\sqrt{2}} \\
+   \end{align}
+$$
+   
+   Karena $|f(x)\rangle - |1 \oplus f(x)\rangle = (-1)^{f(x)}(|0\rangle - |1\rangle)$, kita peroleh:
+   
+$$
+   \begin{align}
+   |\psi_2\rangle &= \frac{1}{\sqrt{2^n}}\sum_{x=0}^{2^n-1}(-1)^{f(x)}|x\rangle \otimes \frac{|0\rangle - |1\rangle}{\sqrt{2}}
+   \end{align}
+$$
+   
+   Perhatikan bahwa faktor $(-1)^{f(x)}$ adalah fase yang tergantung pada nilai $f(x)$.
+
+4. **Penerapan Gerbang Hadamard Kembali** ke $n$ qubit pertama:
+   
+$$
+   \begin{align}
+   |\psi_3\rangle &= (H^{\otimes n} \otimes I)|\psi_2\rangle \\
+   &= (H^{\otimes n} \otimes I)\left(\frac{1}{\sqrt{2^n}}\sum_{x=0}^{2^n-1}(-1)^{f(x)}|x\rangle \otimes \frac{|0\rangle - |1\rangle}{\sqrt{2}}\right) \\
+   \end{align}
+$$
+   
+   Transformasi Hadamard pada basis komputasional:
+   
+$$
+   \begin{align}
+   H^{\otimes n}|x\rangle = \frac{1}{\sqrt{2^n}}\sum_{y=0}^{2^n-1}(-1)^{x \cdot y}|y\rangle
+   \end{align}
+$$
+   
+   dimana $x \cdot y$ adalah dot product bitwise dari $x$ dan $y$. Dengan menerapkan transformasi ini:
+   
+$$
+   \begin{align}
+   |\psi_3\rangle &= \frac{1}{\sqrt{2^n}}\sum_{x=0}^{2^n-1}(-1)^{f(x)}\left(\frac{1}{\sqrt{2^n}}\sum_{y=0}^{2^n-1}(-1)^{x \cdot y}|y\rangle\right) \otimes \frac{|0\rangle - |1\rangle}{\sqrt{2}} \\
+   &= \frac{1}{2^n}\sum_{y=0}^{2^n-1}\left(\sum_{x=0}^{2^n-1}(-1)^{f(x)+x \cdot y}\right)|y\rangle \otimes \frac{|0\rangle - |1\rangle}{\sqrt{2}}
+   \end{align}
+$$
+
+Jika $f(x)$ konstan (0 atau 1 untuk semua $x$), maka:
+
+$$
+\begin{align}
+\sum_{x=0}^{2^n-1}(-1)^{f(x)+x \cdot y} = 
+\begin{cases}
+\pm 2^n & \text{jika } y = 0 \\
+0 & \text{jika } y \neq 0
+\end{cases}
+\end{align}
+$$
+
+Ini terjadi karena interferensi destruktif meniadakan amplitudo untuk semua $y \neq 0$.
+
+Jika $f(x)$ seimbang, maka:
+
+$$
+\begin{align}
+\sum_{x=0}^{2^n-1}(-1)^{f(x)+x \cdot y} = 0 \quad \text{untuk} \quad y = 0
+\end{align}
+$$
+
+Dengan mengukur register pertama, kita dapat menentukan apakah $f(x)$ konstan atau seimbang:
+- Jika $f(x)$ konstan, probabilitas mengukur $|0\rangle^{\otimes n}$ adalah 1
+- Jika $f(x)$ seimbang, probabilitas mengukur $|0\rangle^{\otimes n}$ adalah 0
+
+### Algoritma Grover
+
+Algoritma Grover menggunakan interferensi untuk mencari elemen dalam database tak terurut dengan kompleksitas $O(\sqrt{N})$, lebih cepat dari algoritma klasik yang memerlukan $O(N)$.
+
+#### Langkah-langkah Algoritma:
+
+1. **Inisialisasi** sistem dalam superposisi seragam:
+   
+$$
+   |s\rangle = H^{\otimes n}|0\rangle^{\otimes n} = \frac{1}{\sqrt{N}}\sum_{x=0}^{N-1}|x\rangle
+$$
+   
+   dimana $N = 2^n$ adalah ukuran ruang pencarian.
+
+2. **Iterasi Grover** (diulang $O(\sqrt{N})$ kali):
+   
+   a. **Oracle** ($O$): Membalik fase keadaan target $|w\rangle$:
+      
+$$
+      O|x\rangle = 
+      \begin{cases}
+      -|x\rangle & \text{jika } x = w \\
+      |x\rangle & \text{jika } x \neq w
+      \end{cases}
+$$
+      
+      Operator oracle dapat dituliskan sebagai:
+      
+$$
+      O = I - 2|w\rangle\langle w|
+$$
+   
+   b. **Difusi** ($D$): Membalik amplitudo semua keadaan terhadap rata-rata:
+      
+$$
+      \boxed{D = 2|s\rangle\langle s| - I}
+$$
+      
+      dimana $|s\rangle = \frac{1}{\sqrt{N}}\sum_{x=0}^{N-1}|x\rangle$ adalah superposisi seragam.
+      
+      Operator difusi memenuhi:
+      
+$$
+      D|x\rangle = 2\langle s|x\rangle|s\rangle - |x\rangle = 2\frac{1}{N}|s\rangle - |x\rangle
+$$
+      
+      Efeknya adalah membalik amplitudo setiap keadaan $|x\rangle$ di sekitar nilai rata-rata dari semua amplitudo.
+
+3. **Pengukuran**: Setelah $O(\sqrt{N})$ iterasi, probabilitas mengukur keadaan target $|w\rangle$ mendekati 1.
+
+#### Analisis Matematis:
+
+Keadaan setelah $k$ iterasi Grover:
+
+$$
+\begin{align}
+|\psi_k\rangle &= \sin\left((2k+1)\theta\right)|w\rangle + \cos\left((2k+1)\theta\right)|s'\rangle
+\end{align}
+$$
+
+dimana:
+- $|s'\rangle$ adalah superposisi dari semua keadaan selain $|w\rangle$
+- $\sin\theta = 1/\sqrt{N}$
+- Jumlah optimal iterasi adalah sekitar $\frac{\pi}{4}\sqrt{N}$
+
+## Mekanisme Interferensi dalam Komputer Kuantum
+
+Interferensi kuantum bekerja melalui dua mekanisme utama:
+
+### 1. Interferensi Destruktif
+
+Ketika amplitudo probabilitas saling meniadakan, mengurangi kemungkinan pengukuran keadaan tertentu.
+   
+$$
+\boxed{
+\begin{pmatrix} \alpha_1 \\ \beta_1 \end{pmatrix} + 
+\begin{pmatrix} -\alpha_1 \\ -\beta_1 \end{pmatrix} =
+\begin{pmatrix} 0 \\ 0 \end{pmatrix}
+}
+$$
+
+Contoh interferensi destruktif dalam algoritma Deutsch-Jozsa:
+
+$$
+\begin{align}
+\sum_{x=0}^{2^n-1}(-1)^{f(x)+x \cdot y} = 0 \quad \text{untuk} \quad y \neq 0 \quad \text{ketika} \quad f(x) \quad \text{konstan}
+\end{align}
+$$
+
+Ini terjadi karena setengah dari suku-suku dalam penjumlahan memiliki fase $+1$ dan setengah lainnya memiliki fase $-1$, sehingga saling meniadakan.
+
+### 2. Interferensi Konstruktif
+
+Ketika amplitudo probabilitas saling memperkuat, meningkatkan kemungkinan pengukuran keadaan tertentu.
+   
+$$
+\boxed{
+\begin{pmatrix} \alpha_1 \\ \beta_1 \end{pmatrix} + 
+\begin{pmatrix} \alpha_2 \\ \beta_2 \end{pmatrix} =
+\begin{pmatrix} \alpha_1 + \alpha_2 \\ \beta_1 + \beta_2 \end{pmatrix}
+}
+$$
+
+Dalam interferensi konstruktif, fase amplitudo selaras sehingga saling memperkuat. Contoh dalam algoritma Grover:
+
+$$
+\begin{align}
+D \cdot O|w\rangle &= D \cdot (-|w\rangle) \\
+&= -D|w\rangle \\
+&= -(2|s\rangle\langle s|w\rangle - |w\rangle) \\
+&= -(2\frac{1}{\sqrt{N}}\frac{1}{\sqrt{N}}|s\rangle - |w\rangle) \\
+&= -(2\frac{1}{N}|s\rangle - |w\rangle) \\
+&= |w\rangle - 2\frac{1}{N}|s\rangle
+\end{align}
+$$
+
+Ini meningkatkan amplitudo keadaan target $|w\rangle$ relatif terhadap keadaan lainnya.
+
+### Matematika Interferensi dalam Ruang Hilbert
+
+Untuk sembarang keadaan kuantum $|\psi\rangle$ dalam superposisi:
+
+$$
+|\psi\rangle = \sum_{i} c_i |i\rangle
+$$
+
+Probabilitas mengukur keadaan $|i\rangle$ adalah $P(i) = |c_i|^2 = c_i c_i^*$, dimana $c_i^*$ adalah kompleks konjugat dari $c_i$.
+
+Jika $c_i = |c_i|e^{i\theta_i}$, maka interferensi terjadi ketika:
+
+$$
+\begin{align}
+c_i + c_j &= |c_i|e^{i\theta_i} + |c_j|e^{i\theta_j}
+\end{align}
+$$
+
+- Jika $\theta_i \approx \theta_j$, terjadi interferensi konstruktif
+- Jika $\theta_i \approx \theta_j + \pi$, terjadi interferensi destruktif
+
+## Representasi Visual Interferensi Kuantum
+
+### Diagram Interferensi Gelombang
+
+$$
+\begin{array}{c}
+\psi_1 = \left| \nearrow \right\rangle \quad \text{(Fase } \theta_1 \text{)} \\
+\psi_2 = \left| \searrow \right\rangle \quad \text{(Fase } \theta_2 \text{)} \\
+\hline
+\psi_1 + \psi_2 = \left| \rightarrow \right\rangle + \left| \leftarrow \right\rangle \quad \text{(Interferensi konstruktif atau destruktif)}
+\end{array}
+$$
+
+### Transformasi Kuantum pada Lingkaran Bloch
+
+Lingkaran Bloch adalah representasi geometris dari keadaan qubit tunggal. Setiap keadaan qubit murni dapat ditulis sebagai:
+
+$$
+\boxed{
+|\psi\rangle = \cos\frac{\theta}{2}|0\rangle + e^{i\phi}\sin\frac{\theta}{2}|1\rangle
+}
+$$
+
+dimana:
+- $\theta \in [0, \pi]$ adalah sudut polar (jarak dari kutub utara)
+- $\phi \in [0, 2\pi)$ adalah sudut azimuthal (fase)
+
+Transformasi Hadamard pada Lingkaran Bloch:
+
+$$
+\begin{array}{ccc}
+|0\rangle & \xrightarrow{H} & \frac{|0\rangle + |1\rangle}{\sqrt{2}} \\
+\uparrow & & \nearrow \\
+\text{Kutub Utara} & & \text{Ekuator (arah +X)}
+\end{array}
+$$
+
+### Persamaan Schrödinger untuk Evolusi Kuantum
+
+Evolusi keadaan kuantum diatur oleh persamaan Schrödinger:
+
+$$
+\boxed{i\hbar \frac{\partial}{\partial t}|\psi(t)\rangle = H|\psi(t)\rangle}
+$$
+
+dimana:
+- $\hbar$ adalah konstanta Planck tereduksi ($\hbar = h/2\pi \approx 1.054 \times 10^{-34}$ J·s)
+- $H$ adalah operator Hamiltonian, yang merepresentasikan energi total sistem
+- $|\psi(t)\rangle$ adalah keadaan kuantum yang bergantung waktu
+
+Solusi umum persamaan Schrödinger:
+
+$$
+|\psi(t)\rangle = e^{-iHt/\hbar}|\psi(0)\rangle
+$$
+
+dimana $e^{-iHt/\hbar}$ adalah operator evolusi uniter.
+
+Dalam komputasi kuantum, evolusi keadaan dapat dinyatakan sebagai:
+
+$$
+|\psi(t)\rangle = U(t)|\psi(0)\rangle
+$$
+
+dimana $U(t)$ adalah transformasi uniter yang mewakili sirkuit kuantum.
+
+## Transformasi Fourier Kuantum
+
+Transformasi Fourier Kuantum (QFT) adalah analog kuantum dari Transformasi Fourier Diskrit klasik, dan merupakan bangunan dasar dari banyak algoritma kuantum termasuk algoritma Shor.
+
+Operator QFT didefinisikan sebagai:
+
+$$
+\boxed{
+\text{QFT}_N|j\rangle = \frac{1}{\sqrt{N}}\sum_{k=0}^{N-1}e^{2\pi ijk/N}|k\rangle
+}
+$$
+
+dimana:
+- $N = 2^n$ adalah dimensi ruang Hilbert
+- $j$ dan $k$ adalah bilangan bulat dalam rentang $0$ hingga $N-1$
+
+Jika didekomposisi ke dalam notasi biner, QFT dapat ditulis sebagai:
+
+$$
+\text{QFT}_N|x_1x_2\ldots x_n\rangle = \frac{1}{\sqrt{2^n}}(|0\rangle + e^{2\pi i 0.x_n}|1\rangle) \otimes (|0\rangle + e^{2\pi i 0.x_{n-1}x_n}|1\rangle) \otimes \ldots \otimes (|0\rangle + e^{2\pi i 0.x_1x_2\ldots x_n}|1\rangle)
+$$
+
+dimana $0.x_j x_{j+1} \ldots x_n$ merepresentasikan bilangan pecahan $\frac{x_j}{2} + \frac{x_{j+1}}{2^2} + \ldots + \frac{x_n}{2^{n-j+1}}$.
+
+## Kesimpulan
+
+Interferensi kuantum adalah fondasi utama yang memungkinkan komputer kuantum memiliki keunggulan komputasional dibandingkan komputer klasik. Melalui manipulasi fase kuantum dan superposisi, interferensi kuantum memungkinkan algoritma seperti Deutsch-Jozsa, Grover, dan Shor untuk menyelesaikan masalah dengan kompleksitas yang jauh lebih rendah dibandingkan dengan algoritma klasik terbaik.
+
+Secara matematis, interferensi kuantum adalah hasil dari sifat persamaan Schrödinger, yang memungkinkan amplitudo probabilitas untuk ditambahkan secara koheren. Manipulasi fase kuantum melalui gerbang-gerbang kuantum seperti Hadamard, Pauli-X, dan transformasi fase memungkinkan kita untuk mengendalikan interferensi konstruktif dan destruktif, yang merupakan dasar dari kekuatan komputasi kuantum.
+
+
 # Materi 4: Algoritma Kuantum (Deutsch & Grover)
 Komputer kuantum bisa menyelesaikan masalah tertentu lebih cepat dari komputer klasik. Di sini, kita akan belajar dua algoritma kuantum penting:
 
