@@ -936,13 +936,6 @@ $$
 \text{QFT}_N|x_1x_2\ldots x_n\rangle = \frac{1}{\sqrt{2^n}}(|0\rangle + e^{2\pi i 0.x_n}|1\rangle) \otimes (|0\rangle + e^{2\pi i 0.x_{n-1}x_n}|1\rangle) \otimes \ldots \otimes (|0\rangle + e^{2\pi i 0.x_1x_2\ldots x_n}|1\rangle)
 $$
 
-dimana $0.x_j x_{j+1} \ldots x_n$ merepresentasikan bilangan pecahan $\frac{x_j}{2} + \frac{x_{j+1}}{2^2} + \ldots + \frac{x_n}{2^{n-j+1}}$.
-
-## Kesimpulan
-
-Interferensi kuantum adalah fondasi utama yang memungkinkan komputer kuantum memiliki keunggulan komputasional dibandingkan komputer klasik. Melalui manipulasi fase kuantum dan superposisi, interferensi kuantum memungkinkan algoritma seperti Deutsch-Jozsa, Grover, dan Shor untuk menyelesaikan masalah dengan kompleksitas yang jauh lebih rendah dibandingkan dengan algoritma klasik terbaik.
-
-Secara matematis, interferensi kuantum adalah hasil dari sifat persamaan Schrödinger, yang memungkinkan amplitudo probabilitas untuk ditambahkan secara koheren. Manipulasi fase kuantum melalui gerbang-gerbang kuantum seperti Hadamard, Pauli-X, dan transformasi fase memungkinkan kita untuk mengendalikan interferensi konstruktif dan destruktif, yang merupakan dasar dari kekuatan komputasi kuantum.
 
 
 # Materi 4: Algoritma Kuantum (Deutsch & Grover)
