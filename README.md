@@ -916,7 +916,7 @@ dimana $U(t)$ adalah transformasi uniter yang mewakili sirkuit kuantum.
 
 ## Transformasi Fourier Kuantum
 
-Transformasi Fourier Kuantum (QFT) adalah analog kuantum dari Transformasi Fourier Diskrit klasik, dan merupakan bangunan dasar dari banyak algoritma kuantum termasuk algoritma Shor.
+Transformasi Fourier Kuantum (QFT) adalah analog kuantum dari Transformasi Fourier Diskrit klasik, dan merupakan bangunan dasar dqri banyak algoritma kuantum termasuk algoritma Shor.
 
 Operator QFT didefinisikan sebagai:
 
@@ -930,11 +930,9 @@ dimana:
 - $N = 2^n$ adalah dimensi ruang Hilbert
 - $j$ dan $k$ adalah bilangan bulat dalam rentang $0$ hingga $N-1$
 
-Jika didekomposisi ke dalam notasi biner, QFT dapat ditulis sebagai:
+jadi kalau didekomposisi ke dalam notasi biner, QFT dapat ditulis sebagai:
 
-$$
-\text{QFT}_N|x_1x_2\ldots x_n\rangle = \frac{1}{\sqrt{2^n}}(|0\rangle + e^{2\pi i 0.x_n}|1\rangle) \otimes (|0\rangle + e^{2\pi i 0.x_{n-1}x_n}|1\rangle) \otimes \ldots \otimes (|0\rangle + e^{2\pi i 0.x_1x_2\ldots x_n}|1\rangle)
-$$
+$$\text{QFT}_N|x_1x_2\ldots x_n\rangle = \frac{1}{\sqrt{2^n}}(|0\rangle + e^{2\pi i 0.x_n}|1\rangle) \otimes (|0\rangle + e^{2\pi i 0.x_{n-1}x_n}|1\rangle) \otimes \ldots \otimes (|0\rangle + e^{2\pi i 0.x_1x_2\ldots x_n}|1\rangle)$$
 
 
 
